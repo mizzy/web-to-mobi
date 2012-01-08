@@ -1,0 +1,22 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>[% title %]</title>
+</head>
+<body>
+<h1>[% title %]</h1>
+
+[% num = 1 -%]
+[% FOREACH chapter IN chapters -%]
+<h2>Chatper [% num %] [% chapter.title %]</h2>
+<ul>
+  [% FOREACH section IN chapter.sections -%]
+  <li><a href="[% section.file %]">[% section.title %]</li> 
+  [% END -%]
+</ul>
+[% num = num + 1 -%]
+[% END -%]
+
+</body>
+</html>

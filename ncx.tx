@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ncx PUBLIC "-//NISO//DTD ncx 2005-1//EN" "http://www.daisy.org/z3986/2005/ncx-2005-1.dtd">
+<ncx xmlns="http://www.daisy.org/z3986/2005/ncx/" version="2005-1">
+   <docTitle><text>[% title %]</docTitle>
+   <navMap>
+      <navPoint id="index" playOrder="0">
+         <navLabel><text>[% title %] - Table of Contents</text></navLabel><content src="index.html"/>
+      </navPoint>
+[% num = 1 -%]
+[% FOREACH chapter IN chapters -%]
+  [% FOREACH section IN chapter.sections -%]
+      <navPoint id="item1[% num %]" playOrder="[% num %]">
+         <navLabel><text>[% section.title %]</text></navLabel><content src="[% section.file %]"/>
+      </navPoint>
+    [% num = num + 1 -%]
+  [% END -%]
+[% END -%]
+   </navMap>
+</ncx>
