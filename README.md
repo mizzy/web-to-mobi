@@ -21,7 +21,7 @@ JSON data format is like this.
                       },
                   ]
             }
-         ]
+         ],
          "content_xpath" : "//div[@class=\"content\"]",
          "exclude_xpath" : "//div[@class=\"next\"]"
     }
