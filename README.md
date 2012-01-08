@@ -25,3 +25,8 @@ JSON data format is like this.
          "content_xpath" : "//div[@class=\"content\"]",
          "exclude_xpath" : "//div[@class=\"next\"]"
     }
+
+
+This is the image of showing the converted file on Kindle Previewer.
+
+![Getting Real](http://mizzy.org/images/2012/01/getting_real.png)
