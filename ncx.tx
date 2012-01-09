@@ -8,8 +8,14 @@
       </navPoint>
 [% num = 1 -%]
 [% FOREACH chapter IN chapters -%]
+   [% IF chapter.href -%]
+      <navPoint id="item[% num %]" playOrder="[% num %]">
+         <navLabel><text>[% chapter.title %]</text></navLabel><content src="[% chapter.href %]"/>
+      </navPoint>
+    [% num = num + 1 -%]
+  [% END -%]
   [% FOREACH section IN chapter.sections -%]
-      <navPoint id="item1[% num %]" playOrder="[% num %]">
+      <navPoint id="item[% num %]" playOrder="[% num %]">
          <navLabel><text>[% section.title %]</text></navLabel><content src="[% section.href %]"/>
       </navPoint>
     [% num = num + 1 -%]

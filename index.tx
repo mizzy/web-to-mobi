@@ -7,16 +7,21 @@
 <body>
 <h1>[% title %]</h1>
 
-[% num = 1 -%]
-[% FOREACH chapter IN chapters -%]
-<h2>Chatper [% num %] [% chapter.title %]</h2>
 <ul>
-  [% FOREACH section IN chapter.sections -%]
-  <li><a href="[% section.href %]">[% section.title %]</li>
+  [% FOREACH chapter IN chapters -%]
+  <li><a href="[% chapter.href %]">[% chapter.title %]</a></li>
+  <ul>
+    [% FOREACH section IN chapter.sections -%]
+    <li><a href="[% section.href %]">[% section.title %]</li>
+      <ul>
+      [% FOREACH subsection IN section.subsections -%]
+        <li><a href="[% subsection.href %]">[% subsection.title %]</li>
+      [% END %]
+      </ul>
+    [% END -%]
+  </ul>
   [% END -%]
 </ul>
-[% num = num + 1 -%]
-[% END -%]
 
 </body>
 </html>
