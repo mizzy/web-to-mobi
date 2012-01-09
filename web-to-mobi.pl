@@ -21,15 +21,18 @@ my $book = from_json(do { local $/; <STDIN>});
 
 my $chapter_cnt = 1;
 
+mkdir 'tmp' unless -d 'tmp';
+mkdir 'out' unless -d 'out';
+
 for my $chapter ( @{ $book->{chapters} } ) {
     my $section_cnt = 1;
     for my $section ( @{ $chapter->{sections} } ) {
         my $uri = URI->new($section->{uri});
         my $file = ($uri->path_segments)[-1];
-        mirror($uri, $file) unless -f $file;
+        mirror($uri, "tmp/$file") unless -f "tmp/$file";
 
         my $tree = HTML::TreeBuilder::XPath->new;
-        $tree->parse_file($file);
+        $tree->parse_file("tmp/$file");
         my $content = ($tree->findnodes($book->{content_xpath}))[0];
         my $exclude = ($content->findnodes($book->{exclude_xpath}))[0];
         $exclude->detach;
@@ -45,14 +48,13 @@ for my $chapter ( @{ $book->{chapters} } ) {
 
         $body->push_content($content);
 
-        my $out_file = sprintf("chapter%02s_section%02s.html",
-                               $chapter_cnt, $section_cnt);
+        $file =~ s/\..+/.html/ unless $file =~ /\.html$/;
 
-        open my $out, '>', $out_file or die $!;
+        open my $out, '>', "out/$file" or die $!;
         print $out $body->as_XML;
         close $out;
 
-        $section->{file} = $out_file;
+        $section->{file} = $file;
         $section_cnt++;
     }
     $chapter_cnt++;
@@ -60,22 +62,22 @@ for my $chapter ( @{ $book->{chapters} } ) {
 
 my $tx = Text::Xslate->new( syntax => 'TTerse' );
 
-open my $out, '>', 'index.html' or die $!;
+open my $out, '>', 'out/index.html' or die $!;
 print $out $tx->render('index.tx', $book);
 close $out;
 
-open $out, '>', 'toc.ncx' or die $!;
+open $out, '>', 'out/toc.ncx' or die $!;
 print $out $tx->render('ncx.tx', $book);
 close $out;
 
 my $book_title = $book->{title};
 $book_title =~ s/\s/_/g;
 
-open $out, '>', "${book_title}.opf" or die $!;
+open $out, '>', "out/${book_title}.opf" or die $!;
 print $out $tx->render('opf.tx', $book);
 close $out;
 
-`kindlegen ${book_title}.opf`;
+`kindlegen out/${book_title}.opf`;
 
 exit;
 
