@@ -12,7 +12,7 @@
 <h2>Chatper [% num %] [% chapter.title %]</h2>
 <ul>
   [% FOREACH section IN chapter.sections -%]
-  <li><a href="[% section.file %]">[% section.title %]</li> 
+  <li><a href="[% section.href %]">[% section.title %]</li>
   [% END -%]
 </ul>
 [% num = num + 1 -%]

@@ -20,7 +20,7 @@
 [% num = 1 -%]
 [% FOREACH chapter IN chapters -%]
   [% FOREACH section IN chapter.sections -%]
-    <item id="item[% num %]" media-type="text/x-oeb1-document" href="[% section.file %]"></item>
+    <item id="item[% num %]" media-type="text/x-oeb1-document" href="[% section.href %]"></item>
   [% num = num + 1 -%]
   [% END -%]
 [% END -%]
@@ -37,6 +37,6 @@
   <tours></tours>
   <guide>
     <reference type="toc" title="Table of Contents" href="index.html"></reference>
-    <reference type="start" title="Startup Page" href="[% chapters.0.sections.0.file %]"></reference>
+    <reference type="start" title="Startup Page" href="[% chapters.0.sections.0.href %]"></reference>
   </guide>
 </package>

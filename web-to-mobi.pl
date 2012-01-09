@@ -54,7 +54,7 @@ for my $chapter ( @{ $book->{chapters} } ) {
         print $out $body->as_XML;
         close $out;
 
-        $section->{file} = $file;
+        $section->{href} = $file;
         $section_cnt++;
     }
     $chapter_cnt++;
