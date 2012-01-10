@@ -1,5 +1,13 @@
 # Web-to-mobi - A script for converting web sites to mobipcoket format
 
+---------------------------------------
+
+This project is moved to [webiblo](https://github.com/mizzy/webiblo).
+
+This project will not be updated.
+
+---------------------------------------
+
 This script get JSON data about a web site from STDIN and convert web data to mobipcoket format.
 
 JSON data format is like this.
