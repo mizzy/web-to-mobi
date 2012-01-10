@@ -3,4 +3,6 @@
 *.mobi
 *.opf
 *.ncx
+out
+tmp
 getting_real_to_json.pl

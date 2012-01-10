@@ -80,21 +80,24 @@ sub get_content {
     my $tree = HTML::TreeBuilder::XPath->new;
     $tree->parse_file("tmp/$file");
 
-    my $content = $tree;
     if ( $book->{content_xpath} ) {
-        $content = ($tree->findnodes($book->{content_xpath}))[0];
+        my $content = ($tree->findnodes($book->{content_xpath}))[0];
+        $tree = HTML::TreeBuilder::XPath->new;
+        $tree->parse($content->as_XML);
+        $tree->eof;
     }
 
     if ( $book->{exclude_xpath} ) {
-        my $exclude = ($content->findnodes($book->{exclude_xpath}))[0];
-        $exclude->detach;
+        my @excludes = ($tree->findnodes($book->{exclude_xpath}));
+        for my $exclude ( @excludes ) {
+            $exclude->detach;
+        }
     }
 
-    my $body = HTML::Element->new('body');
-    $body->push_content($style);
-    $body->push_content($content);
+    my $head = ($tree->findnodes('/html/head'))[0];
+    $head->push_content($style);
 
-    my @images = $body->findnodes('//img');
+    my @images = $tree->findnodes('//img');
     for my $image ( @images ) {
         my $base = $uri->as_string;
         $base =~ s{/[^/]+$}{};
@@ -104,7 +107,7 @@ sub get_content {
     $file =~ s/\..+/.html/ unless $file =~ /\.html$/;
 
     open my $out, '>', "out/$file" or die $!;
-    print $out $body->as_XML;
+    print $out $tree->as_XML;
     close $out;
 
     $object->{file} = $file;
